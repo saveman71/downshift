@@ -20,6 +20,7 @@ import {
   mouseMoveItemAtIndex,
   mouseLeaveItemAtIndex,
   tab,
+  clickOnInput,
 } from '../testUtils'
 import * as stateChangeTypes from '../stateChangeTypes'
 import useCombobox from '..'
@@ -586,14 +587,14 @@ describe('props', () => {
       }
       const testCases = [
         {
-          step: tab,
+          step: clickOnInput,
           state: {
             isOpen: true,
             highlightedIndex: -1,
             inputValue: '',
             selectedItem: null,
           },
-          type: stateChangeTypes.InputFocus,
+          type: stateChangeTypes.InputClick,
         },
         {
           step: tab,
@@ -606,14 +607,14 @@ describe('props', () => {
           type: stateChangeTypes.InputBlur,
         },
         {
-          step: tab,
+          step: clickOnInput,
           state: {
             isOpen: true,
             highlightedIndex: -1,
             inputValue: '',
             selectedItem: null,
           },
-          type: stateChangeTypes.InputFocus,
+          type: stateChangeTypes.InputClick,
         },
         {
           step: keyDownOnInput,
@@ -1386,6 +1387,26 @@ describe('props', () => {
         expect.objectContaining({
           isOpen: false,
           type: stateChangeTypes.InputBlur,
+        }),
+      )
+
+      await clickOnInput()
+
+      expect(onStateChange).toHaveBeenCalledTimes(13)
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          isOpen: true,
+          type: stateChangeTypes.InputClick,
+        }),
+      )
+
+      await clickOnInput()
+
+      expect(onStateChange).toHaveBeenCalledTimes(14)
+      expect(onStateChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          isOpen: false,
+          type: stateChangeTypes.InputClick,
         }),
       )
     })
